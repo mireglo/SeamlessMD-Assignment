@@ -8,10 +8,10 @@ export class PatientsList extends React.Component {
 	render(props) {
 		let tableHeaders = []
 		if (this.props.entries.length > 0){
-			tableHeaders = [<th>PatientId</th>,
-							<th>PatientName</th>,
-							<th>PatientBirthDate</th>,
-							<th>PatientGender</th>]
+			tableHeaders = [<th key={1234567890}>PatientId</th>,
+							<th key={1234567891}>PatientName</th>,
+							<th key={1234567892}>PatientBirthDate</th>,
+							<th key={1234567893}>PatientGender</th>]
 		}
 
 		return (

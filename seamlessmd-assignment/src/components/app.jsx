@@ -1,11 +1,9 @@
 import '../App.css';
-import React, { PureComponent } from 'react';
-import { PieChart, Pie, Legend, Tooltip, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
+import React from 'react';
+import { PieChart, Pie, Legend, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import Button from './button.jsx';
 import TextField from './textfield.jsx';
 import PatientsList from './patientslist';
-
-var ageCalculator = require('age-calculator');
 let {AgeFromDateString} = require('age-calculator');
 
 export class App extends React.Component {
@@ -40,7 +38,6 @@ export class App extends React.Component {
       if (patientInfo.resource.birthDate == null || patientInfo.resource.birthDate == "") {localACount["Unknown"] += 1;}
       else{
         let age = new AgeFromDateString(patientInfo.resource.birthDate).age;
-        console.log(age)
         switch(Math.floor(age/20)){
           case 0:
             localACount["0-20"] += 1;
@@ -69,23 +66,21 @@ export class App extends React.Component {
      formattedLocalACount.push({name: key, numPatients: value});
     }
     this.setState({ageCount: formattedLocalACount});
-    console.dir(this.state.ageCount)
   }
 
 	render(props) {
     
 		return (
-      <div className="app">
-        <body className="appContent">
+      <body className="app">
+        <div className="appContent">
           
 
           {this.state.showButton ?
             <div>
-              <TextField changeHandler={e => this.setState({entryLimit: e.target.value})}></TextField>
+              <TextField changeHandler={e => {if(e.target.value < 1){e.target.value = 1; this.setState({entryLimit: 1})} else{this.setState({entryLimit: e.target.value})}}}></TextField>
               <Button disabled={!this.state.showButton} clickHandler={() => {fetch('http://hapi.fhir.org/baseR4/Patient?birthdate=lt2021-06-26&_count='+this.state.entryLimit)
                                           .then(response => response.json())
                                           .then(data => this.setState({entries: data['entry'], showButton: false}))
-                                          .then(() => console.log(this.state.entries))
                                           .then(() => this.generateGenderStatistics())
                                           .then(() => this.generateAgeStatistics())
                                           }} />
@@ -132,8 +127,8 @@ export class App extends React.Component {
               </div>}
           
 
-        </body>
-      </div>
+        </div>
+      </body>
     );
 	}
 }
