@@ -10,21 +10,26 @@ export class PatientsList extends React.Component {
 		if (this.props.entries.length > 0){
 			tableHeaders = [<th>PatientId</th>,
 							<th>PatientName</th>,
-							<th>PatientBirthDate</th>]
+							<th>PatientBirthDate</th>,
+							<th>PatientGender</th>]
 		}
 
 		return (
 			<table>
-				<tr>
-					{tableHeaders}
-				</tr>
-				{this.props.entries.map(patientInfo => 
-					<tr key={patientInfo.resource.id}>
-						<td>{patientInfo.resource.id}</td>
-						<td>{patientInfo.resource.name ? patientInfo.resource.name[0].family : "-x- Not on File -x-"}</td>
-						<td>{patientInfo.resource.birthDate ? patientInfo.resource.birthDate : "-x- Not on File -x-"}</td>
+				<thead>	
+					<tr>
+						{tableHeaders}
 					</tr>
-				)}
+				</thead>
+				<tbody>
+					{this.props.entries.map(patientInfo => 
+						<tr key={patientInfo.resource.id}>
+							<td>{patientInfo.resource.id}</td>
+							<td>{patientInfo.resource.name ? patientInfo.resource.name[0].family : "-x- Not on File -x-"}</td>
+							<td>{patientInfo.resource.birthDate ? patientInfo.resource.birthDate : "-x- Not on File -x-"}</td>
+							<td>{patientInfo.resource.gender ? patientInfo.resource.gender : "-x- Not on File -x-"}</td>
+						</tr>)}
+				</tbody>
 				
 			</table>
 		);
